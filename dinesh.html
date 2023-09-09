@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking Registration Form</title>
+    <style>
+        /* Add your CSS styling here */
+    </style>
+</head>
+<body>
+    <h1>Hotel Booking Registration Form</h1>
+    <form id="bookingForm">
+        <label for="customerName">Customer Name:</label>
+        <input type="text" id="customerName" required><br><br>
+
+        <label for="checkInDate">Check-in Date:</label>
+        <input type="date" id="checkInDate" required><br><br>
+
+        <label for="totalDays">Total No of Days:</label>
+        <input type="number" id="totalDays" required><br><br>
+
+        <label for="totalPersons">Total No of Persons:</label>
+        <input type="number" id="totalPersons" required><br><br>
+
+        <label for="roomType">Room Type:</label>
+        <select id="roomType">
+            <option value="Delux Room">Delux Room</option>
+            <option value="Suite Room">Suite Room</option>
+        </select><br><br>
+
+        <label for="advanceAmount">Advance Amount:</label>
+        <input type="number" id="advanceAmount" required><br><br>
+
+        <label for="amenities">Amenities:</label>
+        <select id="amenities" multiple>
+            <option value="AC">AC</option>
+            <option value="Locker">Locker</option>
+        </select><br><br>
+
+        <label for="extraPersons">Per Day Cost for Extra Person:</label>
+        <input type="number" id="extraPersons" value="1000" readonly><br><br>
+
+        <label for="totalRoomCost">Total Room Cost:</label>
+        <input type="number" id="totalRoomCost" readonly><br><br>
+
+        <label for="totalAmenitiesCost">Total Amenities Cost:</label>
+        <input type="number" id="totalAmenitiesCost" readonly><br><br>
+
+        <label for="totalCost">Total Cost:</label>
+        <input type="number" id="totalCost" readonly><br><br>
+
+        <label for="balance">Balance:</label>
+        <input type="number" id="balance" readonly><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        // JavaScript logic for calculating costs
+        const roomRates = {
+            'Delux Room': 2500,
+            'Suite Room': 4000
+        };
+
+        document.getElementById("bookingForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const totalDays = parseInt(document.getElementById("totalDays").value);
+            const roomType = document.getElementById("roomType").value;
+            const advanceAmount = parseInt(document.getElementById("advanceAmount").value);
+            const amenities = Array.from(document.getElementById("amenities").selectedOptions).map(option => option.value);
+
+            const roomCost = roomRates[roomType] * totalDays;
+            const amenitiesCost = amenities.includes('AC') ? 1000 * totalDays : 0;
+
+            const totalCost = roomCost + amenitiesCost;
+            const balance = totalCost - advanceAmount;
+
+            document.getElementById("totalRoomCost").value = roomCost;
+            document.getElementById("totalAmenitiesCost").value = amenitiesCost;
+            document.getElementById("totalCost").value = totalCost;
+            document.getElementById("balance").value = balance;
+        });
+    </script>
+</body>
+</html>
